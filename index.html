@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हॉटेल अतिथी</title>
+    
+    <!-- For Loading Animation (start) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js"></script>
+    <style>
+    body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    }
+    #loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    }
+    #main-content {
+    display: none;
+    }
+    </style>
+
+    <div id="loading-container"></div>
+    
+<script>
+  // Path to your Lottie animation file
+  const animationPath = 'https://lottie.host/07ad0315-716e-42a0-af28-0032685729b3/S0jfWUbofL.json';
+
+  // Load the Lottie animation
+  const animationContainer = document.getElementById('loading-container');
+  lottie.loadAnimation({
+    container: animationContainer,
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: animationPath
+  });
+
+  // Function to check if all images are loaded
+  function allImagesLoaded() {
+    const images = document.querySelectorAll('img');
+    for (let i = 0; i < images.length; i++) {
+      if (!images[i].complete || images[i].naturalHeight === 0) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // Function to hide the loading screen
+  function hideLoadingScreen() {
+    document.getElementById('loading-container').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    document.body.style.overflow = 'auto'; // Re-enable scrolling
+  }
+
+  // Wait for all images to load or a maximum of 5 seconds
+  window.addEventListener('load', () => {
+    const checkImages = setInterval(() => {
+      if (allImagesLoaded()) {
+        clearInterval(checkImages);
+        clearTimeout(maxWait);
+        hideLoadingScreen();
+      }
+    }, 100);
+
+    const maxWait = setTimeout(() => {
+      clearInterval(checkImages);
+      hideLoadingScreen();
+    }, 3000); // 5 seconds maximum wait time
+  });
+</script>
+    
+    <!-- For Loading Animation (end) -->
+    
+ <div id="main-content">
+ 
+    
+    <!-- For Header (start)-->
+    <style type="text/css">
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
+    
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #F7FBFE;
+    }
+    
+    .header {
+    display: flex;
+    z-index: 999;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #FFFFFF;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    position: fixed;
+    width: 100%;
+    border-bottom: 3px solid #D9E1EC;
+    }
+    
+    .logo img {
+    height: 60px;
+    width: auto;
+    }
+    
+    .icons {
+    display: flex;
+    align-items: center;
+    }
+    
+    .icon {
+    height: 25px;
+    width: auto;
+    margin-left: 20px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    }
+    
+    .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    overflow: hidden;
+    border: 3px solid #D9E1EC;
+    z-index: 9999;
+    }
+    
+    .dropdown-menu ul {
+    list-style-type: none;
+    padding: 10px 0;
+    }
+    
+    .dropdown-menu ul li {
+    padding: 10px 20px;
+    -webkit-tap-highlight-color: transparent;
+    }
+    
+    .dropdown-menu ul li a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+    }
+    
+    .dropdown-menu ul li:hover {
+    background-color: #F1F1F1;
+    }
+    
+    .location-container {
+    padding: 20px;
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 5px;
+    overflow: hidden;
+    border: 3px solid #D9E1EC;
+    z-index: 9999;
+    max-width: 300px;
+    }
+    
+    .location-container h3 {
+    margin-bottom: 10px;
+    }
+    
+    .location-container input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 2px solid #D9E1EC;
+    border-radius: 5px;
+    }
+    
+    .location-container input:focus {
+    outline: none;
+    }
+    
+    .location-container button {
+    width: 100%;
+    padding: 10px;
+    background: #ff3c00;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+    -webkit-tap-highlight-color: transparent;
+    }
+    
+    .location-container button.disabled {
+    background-color: #F7FBFE;
+    color: #D9E1EC;
+    border: 2px solid #D9E1EC;
+    cursor: not-allowed;
+    padding: 9px;
+    }
+    
+    .location-container button:hover:not(.disabled) {
+    background-color: #ff0f0f;
+    }
+    
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUMsIf7djqlnmITxbdOsnHOjSgitR8PlGVGyaUpo_LAGvzdSsCXl6frsyy9-IPWmSKaZqD4SZ0UJGUHHrvj0TnCGjFru43ZophLNn00cZE8tEwYvOxEjxyHSldMkuuMcpBmwJJoLsNvskFN_aGn-2zEETmnynFQZpWAz0RovdYrhMOyLewnQjFxImToR7D/s3264/20240727_234146.png" alt="Logo">
+        </div>
+        <div class="icons">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjH6sI7G587Zt6tuPw7XNYXFuJswPEyDz77blgQKLacW2-1yN13p2kTH6uqUTFgWpv1muJUaIyTEYzF5itH-yyO5ELMhpTNN0sjjcQYxOkTpFhITrTjenpq0fbPVz3iFRyj6HSKj5ZjCP2w0t__8MZH9GxHzKf4h4dpilZOlV0Ur5CFqUwiRdL0xFvx-acy/s128/marker.png" alt="Location Icon" class="icon" id="location-button">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggXEt515G98raR6HEm-WFJ5dmR0hgp4Tt8L4avQrhWVbfNKdFA7qCpQ6coL-oJK7u9yma0fuuS2ABVkW_1VRZeDnnJv7WxbPWh03_ePZU2F5MselNZvlajgJpbNz6Fbm9WpldzowOJntYXsPwMtWE5DzD7NZAsWVHlF3vYE0NlmZWTUQjWei5PWd2OYm2n/s128/bars-sort.png" alt="Menu Icon" class="icon" id="menu-button">
+        </div>
+    </header>
+    <div class="dropdown-menu" id="dropdown-menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">T&C</a></li>
+        </ul>
+    </div>
+    <div class="location-container" id="location-container">
+        <h3>स्थान अपडेट करा</h3>
+        <input type="text" placeholder="नवीन स्थान प्रविष्ट करा" id="location-input">
+        <button id="update-location-button" class="disabled">अपडेट करा</button>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var menuButton = document.getElementById('menu-button');
+    var dropdownMenu = document.getElementById('dropdown-menu');
+    var locationButton = document.getElementById('location-button');
+    var locationContainer = document.getElementById('location-container');
+    var locationInput = document.getElementById('location-input');
+    var updateLocationButton = document.getElementById('update-location-button');
+    
+    // Load stored location from local storage
+    var storedLocation = localStorage.getItem('address');
+    if (storedLocation) {
+    locationInput.value = storedLocation;
+    }
+    
+    // Enable/Disable update button based on input value
+    function toggleUpdateButton() {
+    if (locationInput.value.trim() === '') {
+    updateLocationButton.classList.add('disabled');
+    } else {
+    updateLocationButton.classList.remove('disabled');
+    }
+    }
+    
+    locationInput.addEventListener('input', toggleUpdateButton);
+    toggleUpdateButton(); // Initial check
+    
+    menuButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    if (dropdownMenu.style.display === 'block') {
+    dropdownMenu.style.display = 'none';
+    } else {
+    dropdownMenu.style.display = 'block';
+    locationContainer.style.display = 'none'; // Hide location container if visible
+    }
+    });
+    
+    locationButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    if (locationContainer.style.display === 'block') {
+    locationContainer.style.display = 'none';
+    } else {
+    locationContainer.style.display = 'block';
+    dropdownMenu.style.display = 'none'; // Hide dropdown menu if visible
+    }
+    });
+    
+    document.addEventListener('click', function() {
+    if (dropdownMenu.style.display === 'block') {
+    dropdownMenu.style.display = 'none';
+    }
+    if (locationContainer.style.display === 'block') {
+    locationContainer.style.display = 'none';
+    }
+    });
+    
+    dropdownMenu.addEventListener('click', function(event) {
+    event.stopPropagation();
+    });
+    
+    locationContainer.addEventListener('click', function(event) {
+    event.stopPropagation();
+    });
+    
+    updateLocationButton.addEventListener('click', function() {
+    if (!updateLocationButton.classList.contains('disabled')) {
+    localStorage.setItem('address', locationInput.value.trim());
+    window.location.reload();
+    locationContainer.style.display = 'none';
+    }
+    });
+    });
+    
+    </script>
+    
+    <!-- For Header (end) -->
+    
+    <!-- For Card and Special Chai Image (start) -->
+    <style>
+        .containerr {
+            height: auto;
+            margin-top: 0px;
+            width: 100%;
+            padding: 10px;
+            padding-top: 100px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #F7FBFE;
+        }
+        .card-1o {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border: 2.5px solid #D9E1EC;
+            color: #222;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            font-weight: bold;
+            text-decoration: none; /* Remove underline from link */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .card-1o span {
+            margin-right: 10px;
+        }
+        .icon {
+            width: 22px;
+            height: 22px;
+        }
+        .center-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        @media (min-width: 768px) {
+        .center-image {
+        display: none;
+        }
+        }
+    </style>
+    <div class="containerr">
+        <a href="history.html" class="card-1o">
+            <span>ऑर्डर इतिहास</span>
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgaBaOBSc6Jt7yucH2WMOkog4K85sNlAVkHpzfgGsVJhGMcEAy18oV-_Zqv1Nq-jJV0vhM6L3hCjHWBLPKFF6hcsdnEO36YJl3KTbmIo7uVj_dKjkLBZEuKH78EsIwLLTVMVEbW60KOKhQ6GcaWNsHewtPXPHlsaLTZBxoBV6RnZ9zJQ4bSCYbILsS36pZF/s64/order-history%20(1).png" alt="Icon" class="icon">
+        </a>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjuiA29xaV07K0Gsn7V70uM80Fh0evo8PkmYWr4fgth63o_7HDrLtlroEtq6xI2xzv2lx-N0FMAvh5pS0L-m8iFK7MjwnQ2O-QZOcjBulc9dGaUm2r7byCwS3pzc0QLnDOgT45Ap7lHEuIrVPu_ITtGMSHHixdG2KT3BgxN2CEsVMRZVq3Xl3zLQa6l1Rmi/s3264/20240728_135003.png" alt="Centered Image" class="center-image">
+    </div>
+    
+    <!-- For Card and Special Chai Image (end) -->
+
+    <!-- For Products (start) -->
+    <style>
+      .khakach {
+          font-family: 'Roboto', sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: auto;
+          background: #F7FBFE;
+          margin: 0;
+      }
+      .cards-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 16px;
+          max-width: 12000px;
+          width: 100%;
+          padding: 16px;
+      }
+      .product-card {
+          display: flex;
+          border-radius: 12px;
+          overflow: hidden;
+          background: white;
+          max-width: 450px;
+          width: 100%;
+          height: 250px;
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.02);
+          transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .product-card:hover {
+          transform: scale(1.01);
+          box-shadow: 0 6px 12px rgba(114, 115, 116, 0.3);
+      }
+      .product-card img {
+          width: 50%;
+          height: auto;
+          object-fit: cover;
+          border-top-left-radius: 12px;
+          border-bottom-left-radius: 12px;
+      }
+      .product-details {
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 50%;
+      }
+      .product-name {
+          font-size: 1.5em;
+          font-weight: bold;
+          margin-bottom: 8px;
+          color: #333;
+      }
+      .product-price {
+          font-size: 1.3em;
+          color: #555;
+          margin-bottom: 16px;
+      }
+      .quantity-selector {
+          display: flex;
+          align-items: center;
+          margin-bottom: 16px;
+          border: 1px solid #ddd;
+          border-radius: 12px;
+          overflow: hidden;
+          background: #fafafa;
+      }
+      .quantity-selector button {
+          background-color: #e0e0e0;
+          border: none;
+          padding: 8px;
+          cursor: pointer;
+          border-radius: 12px;
+          font-size: 1.2em;
+          transition: background-color 0.3s;
+          flex: 1;
+      }
+      .quantity-selector button:hover {
+          background: #F7FBFE;
+      }
+      .quantity-selector input {
+          width: 60px;
+          text-align: center;
+          border: none;
+          padding: 8px;
+          font-size: 1.2em;
+          outline: none;
+          border-radius: 0;
+          background: #fafafa;
+      }
+      .buy-button {
+          background-color: #ff3c00;
+          color: white;
+          border: none;
+          padding: 10px;
+          font-size: 1.2em;
+          cursor: pointer;
+          border-radius: 8px;
+          transition: background-color 0.3s;
+          font-weight: bold;
+      }
+      .buy-button:hover {
+          background-color: #ff0f0f;
+      }
+
+              /* No Products CSS */
+              .body-0-x {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            background: #F7FBFE;
+            margin: 0;
+            margin-top: 10px;
+           
+        }
+        .card-0-x {
+            max-width: 400px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+            padding: 20px;
+            text-align: center;
+            border: 3px solid #D9E1EC;
+        }
+        .lottie-container-0-x {
+            margin: 0 auto;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .title-0-x {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .description-0-x {
+            color: #666;
+        }
+  </style>
+
+  <!-- No Products Message HTML -->
+<div class="body-0-x" id="no-products-message" style="display:none;">
+    <div class="card-0-x">
+        <div class="lottie-container-0-x">
+            <lottie-player id="lottie" src="https://lottie.host/6c7c7dff-6fe8-4396-bc54-50453d16e428/QJR8s98TaQ.json" background="transparent" speed="1" loop autoplay></lottie-player>
+        </div>
+        <div class="title-0-x">तात्पुरते बंद</div>
+        <div class="description-0-x">आम्ही सध्या बंद आहोत. कृपया सकाळी ९ वाजता परत या.</div>
+    </div>
+</div>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest"></script>
+
+<div class="khakach">
+<div class="cards-container" id="cards-container">
+</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyC5HNG_lDg3sazLKWUaEosS5DXK3THP5cc",
+        authDomain: "hotel-atithi-database.firebaseapp.com",
+        databaseURL: "https://hotel-atithi-database-default-rtdb.firebaseio.com",
+        projectId: "hotel-atithi-database",
+        storageBucket: "hotel-atithi-database.appspot.com",
+        messagingSenderId: "782139351890",
+        appId: "1:782139351890:web:bcdfe3ff06e0329ca1508b",
+        measurementId: "G-6T2WB5QJ4T"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var database = firebase.database();
+    var ref = database.ref('menu/');
+    ref.on('value', gotData, errData);
+
+    function gotData(data) {
+        var menu = data.val();
+        var keys = Object.keys(menu);
+        var hasProducts = false;
+
+        $("#cards-container").empty();
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var status = menu[k].status;
+            var mv = menu[k].mv;
+            var pname = menu[k].pname.replace(/["\\]/g, '');
+            var price = menu[k].price.replace(/["\\]/g, '');
+            var image = menu[k].image.replace(/["\\]/g, '');
+
+            if (status == 1) {
+                hasProducts = true;
+                var card = `
+                    <div class="product-card" data-product-id="${k}">
+                        <img src="${image}" alt="${pname}">
+                        <div class="product-details">
+                            <div>
+                                <div class="product-name">${pname}</div>
+                                <div class="product-price">${price}</div>
+                            </div>
+                            <div class="quantity-selector">
+                                <button data-action="subtract" data-product-id="${k}" data-min-quantity="${mv}">-</button>
+                                <input type="number" id="quantity-${k}" value="${mv}" min="${mv}" readonly>
+                                <button data-action="add" data-product-id="${k}" data-min-quantity="${mv}">+</button>
+                            </div>
+                            <button class="buy-button" data-product-id="${k}">ऑर्डर करा</button>
+                        </div>
+                    </div>
+                `;
+                $("#cards-container").append(card);
+            }
+        }
+
+        if (hasProducts) {
+            document.getElementById('no-products-message').style.display = 'none';
+        } else {
+            document.getElementById('no-products-message').style.display = 'flex';
+        }
+    }
+
+    function errData(err) {
+        console.error("Error!", err);
+    }
+
+    // Event delegation for quantity buttons
+    document.addEventListener('click', function(event) {
+        if (event.target.tagName === 'BUTTON' && event.target.dataset.action) {
+            const action = event.target.dataset.action;
+            const productId = event.target.dataset.productId;
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            const minQuantity = parseInt(event.target.dataset.minQuantity);
+            let currentQuantity = parseInt(quantityInput.value);
+            let newQuantity = action === 'add' ? currentQuantity + 1 : currentQuantity - 1;
+            if (newQuantity >= minQuantity) {
+                quantityInput.value = newQuantity;
+            }
+        }
+        if (event.target.classList.contains('buy-button')) {
+            const productId = event.target.dataset.productId;
+            const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+            const productName = card.querySelector('.product-name').innerText;
+            const productPrice = card.querySelector('.product-price').innerText;
+            const productImage = card.querySelector('img').src;
+            const productQuantity = card.querySelector(`#quantity-${productId}`).value;
+
+            localStorage.setItem('cartItem', JSON.stringify({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                image: productImage,
+                quantity: productQuantity
+            }));
+            window.location.href = 'cart.html';
+        }
+    });
+</script>
+
+    <!-- For Product (end) -->
+
+    <!-- Footer (start) -->
+     <style>
+        
+        /* Footer styles */
+        footer {
+            background-color: #f0f4f7;
+            padding: 20px 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        /* Header in the footer with label and logo */
+        .footer-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-logo {
+            height: 50px; /* Adjust size as needed */
+            margin-bottom: 20px;
+        }
+
+        /* Footer text styling */
+        .footer-content p {
+            margin: 0;
+            color: #333;
+            font-size: 14px;
+        }
+
+        /* Disclaimer styling */
+        .footer-disclaimer {
+            margin-bottom: 20px;
+            font-size: 12px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+
+     </style>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-header">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKcKN9gxdzELYQd345VvISPkrHcX0VUifUEMXYs0oRRJjX_6mvRjAOCgQWrGVV0F8VQ-QF14IdX0x6RwVRVWryinJqHaqGainYi3_YNWOgehVwn2GsVHzQuwkXp3JKtL1jEo-Mi__QgGOuquXojAL5n_2dUou4c74OfBP1jQ1itRWZ7gN9uzQ30UB0tFU6/s3264/20240802_010246.png" alt="Company Logo" class="footer-logo">
+            </div>
+            <div class="footer-disclaimer">
+                <p>याची नोंद घ्या : डिलिव्हरी सेवा फक्त परभणी, महाराष्ट्रातील निवडक भागात उपलब्ध आहे..!</p>
+            </div>
+            <p>&copy; 2024 Hotel Atithi. All rights reserved.</p>
+        </div>
+    </footer>
+     <!-- Footer (end) -->
+    
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हॉटेल अतिथी</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap">
+    <style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #fff;
+        margin: 0;
+    }
+    
+    .card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        padding: 30px;
+        text-align: center;
+        max-width: 350px;
+        width: 100%;
+    }
+    
+    .animation {
+        margin: 0 auto 20px auto;
+        width: 250px;
+        height: 250px;
+    }
+    
+    .order-successful {
+        font-size: 26px;
+        color: #F5B41A;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    
+    .button {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        background-color: #F5B41A;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+    }
+    
+    .button.secondary {
+        background-color: #f0f0f0;
+        color: #333;
+        font-weight: thin;
+        font-size: 16px;
+    }
+    
+    .button:hover {
+        background-color: #e5a419;
+    }
+    
+    .button.secondary:hover {
+        background-color: #e0e0e0;
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="animation">
+            <lottie-player src="https://lottie.host/389f75cb-649a-42eb-be78-7cb0999035b6/gDUcOqJD7H.json" background="transparent" speed="1" style="width: 100%; height: 100%;" loop autoplay></lottie-player>
+        </div>
+        <h2 class="order-successful">ऑर्डर यशस्वी झाला !!!</h2>
+        <button class="button" onclick="goToHome()">वेबसाइटवर परत जा</button>
+        <button class="button secondary" onclick="showHistory()">ऑर्डर इतिहास दाखवा</button>
+    </div>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script>
+        function goToHome() {
+            window.location.href = 'index.html'; // Change to your home page URL
+        }
+
+        function showHistory() {
+            window.location.href = 'history.html'; // Change to your history page URL
+        }
+
+        // Override the back button behavior
+        window.onpopstate = function() {
+            window.location.href = 'index.html';
+        }
+
+        // Push a new state to the history stack to enable the onpopstate event
+        window.history.pushState({}, '');
+    </script>
+</body>
+</html>

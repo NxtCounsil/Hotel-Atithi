@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ऑर्डर इतिहास</title>
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <style>
+        body {
+            background-color: #F7FBFE;
+            justify-content: center;
+            margin: 0;
+        }
+        .boda {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            width: 100%;
+            margin: 0;
+            background-color: #F7FBFE;
+            font-family: 'Arial', sans-serif;
+            position: fixed;
+            z-index: 999;
+            box-shadow: 0 10px 1000px rgba(247, 251, 254, 1);
+        }
+
+        .card-h {
+            background-color: #fff;
+            border-radius: 10px;
+            width: 300px;
+            padding: 20px;           
+            border: 3px solid #D9E1EC;
+            z-index: 999;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .details .left,
+        .details .right {
+            text-align: left;
+        }
+
+        .total-label,
+        .debt-label {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .total-value,
+        .debt-value {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000;
+            margin-top: 5px;
+        }
+
+        .total-value {
+            color: #007bff;
+        }
+
+        .debt-value {
+            color: #dc3545;
+        }
+
+        .bode {
+            font-family: Arial, sans-serif;
+            background-color: #F7FBFE;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin: 0;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            max-width: 1200px;
+            width: 100%;
+            padding: 16px;
+            margin-top: 390px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+            width: 300px;
+            padding: 20px;
+            position: relative;
+            border: 3px solid #D9E1EC;
+        }
+
+        .label-date, .label-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .label-date {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
+
+        .label-time {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .product-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 10px;
+        }
+
+        .price {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .badge {
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .badge-paid {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .badge-unpaid {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="boda">
+        <div class="card-h">
+            <lottie-player src="https://lottie.host/79265add-6372-468e-8da4-acee8d3251ee/5lJsQkO1Tf.json" background="transparent" speed="1" style="width: 100%; height: 200px;" loop autoplay></lottie-player>
+            <h1 class="title">ऑर्डर इतिहास</h1>
+            <div class="details">
+                <div class="left">
+                    <label class="total-label">एकूण ऑर्डर</label>
+                    <div class="total-value" id="total-orders">here</div>
+                </div>
+                <div class="right">
+                    <label class="debt-label">उधार</label>
+                    <div class="debt-value" id="total-debt">₹00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bode">
+        <div class="cards-container" id="cards-container">
+            <!-- Dynamic content will be injected here -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyC5HNG_lDg3sazLKWUaEosS5DXK3THP5cc",
+            authDomain: "hotel-atithi-database.firebaseapp.com",
+            databaseURL: "https://hotel-atithi-database-default-rtdb.firebaseio.com",
+            projectId: "hotel-atithi-database",
+            storageBucket: "hotel-atithi-database.appspot.com",
+            messagingSenderId: "782139351890",
+            appId: "1:782139351890:web:bcdfe3ff06e0329ca1508b",
+            measurementId: "G-6T2WB5QJ4T"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        var database = firebase.database();
+        var phoneNumber = localStorage.getItem('phone');  // Fetch phone number from local storage
+        var ref = database.ref('history/' + phoneNumber + '/');  // Use phone number in database reference
+        ref.on('value', gotData, errData);
+        
+        function gotData(data) {
+            $("#cards-container").empty();
+            var history = data.val();
+            var keys = Object.keys(history);
+            var totalOrders = keys.length;
+            var totalDebt = 0;
+
+            // Reverse the order of the keys
+            keys.reverse();
+
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                var status = history[k].status;
+                var item = history[k].productName.replace(/["\\]/g, '');
+                var price = parseInt(history[k].totalAmount.replace(/["\\]/g, ''));  // convert price to integer
+                var date = history[k].date.replace(/["\\]/g, '');
+                var time = history[k].time.replace(/["\\]/g, '');
+
+                var badgeClass = '';
+                var badgeText = '...';
+
+                if (status == 1) {
+                    badgeClass = 'badge-paid';
+                    badgeText = 'दिले';
+                } else if (status == 0) {
+                    badgeClass = 'badge-unpaid';
+                    badgeText = 'उधार';
+                    totalDebt += price;  // Add to total debt if status is 0
+                }
+
+                var card = `
+                    <div class="card">
+                        <div class="label-date">${date}</div>
+                        <div class="label-time">${time}</div>
+                        <div class="product-name">${item}</div>
+                        <div class="price">₹${price}</div>
+                        <div class="badge ${badgeClass}">${badgeText}</div>
+                    </div>
+                `;
+                $("#cards-container").append(card);
+            }
+
+            // Format total orders to always be two digits
+            var formattedTotalOrders = totalOrders < 10 ? '0' + totalOrders : totalOrders;
+            // Format total debt to always be two digits
+            var formattedTotalDebt = totalDebt < 10 ? '0' + totalDebt : totalDebt;
+
+            // Update total orders count and total debt
+            document.getElementById('total-orders').innerText = formattedTotalOrders;
+            document.getElementById('total-debt').innerText = '₹' + formattedTotalDebt;
+        }
+        
+        function errData(err) {
+            console.error("Error!", err);
+        }
+    </script>
+</body>
+</html>

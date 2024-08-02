@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>हॉटेल अतिथी</title>
+    <style>
+        body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #F7FBFE;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 95%;
+    max-width: 300px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.0);
+    text-align: center;
+    border: 3px solid #D9E1EC;
+}
+
+.form-container .logo {
+    max-width: 300px;
+    margin-bottom: 10px;
+}
+
+.form-container h1 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    color: #222;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 2px solid #D9E1EC;
+    border-radius: 5px;
+    font-size: 1em;
+    margin: 0 auto;
+    display: block;
+    
+}
+
+.input-group input:focus {
+    outline: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 10px;
+    background: #D9E1EC;
+    border: none;
+    border-radius: 5px;
+    color: #222;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn.enabled {
+    background: #ff3c00;
+    cursor: pointer;
+    color: #fff;
+}
+
+.btn.enabled:hover {
+    background: #ff0f0f;
+    color: #fff;
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUMsIf7djqlnmITxbdOsnHOjSgitR8PlGVGyaUpo_LAGvzdSsCXl6frsyy9-IPWmSKaZqD4SZ0UJGUHHrvj0TnCGjFru43ZophLNn00cZE8tEwYvOxEjxyHSldMkuuMcpBmwJJoLsNvskFN_aGn-2zEETmnynFQZpWAz0RovdYrhMOyLewnQjFxImToR7D/s3264/20240727_234146.png" alt="Logo" class="logo">
+            <h1>प्रारंभ करा</h1>
+            <form id="signupForm" action="#" method="post">
+                <div class="input-group">
+                    <label for="name">नाव</label>
+                    <input type="text" id="name" placeholder="योगेश माने" name="name" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone">फोन</label>
+                    <input type="tel" id="phone" placeholder="+९१ ९९२१३६२२०८" name="phone" required>
+                </div>
+                <div class="input-group">
+                    <label for="address">पत्ता</label>
+                    <input type="text" id="address" placeholder="सागर नगर, परभणी" name="address" required>
+                </div>
+                <button id="submitBtn" type="submit" class="btn">पुढे जा</button>
+            </form>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const inputs = form.querySelectorAll('input');
+
+    // Redirect if data exists in local storage
+    function redirectToSiteIfDataExists() {
+        const name = localStorage.getItem('name');
+        const phone = localStorage.getItem('phone');
+        const address = localStorage.getItem('address');
+
+        if (name && phone && address) {
+        //window.location.href = 'index.html';
+        
+     }
+    }
+
+    // Retrieve saved data and pre-fill the form fields if available
+    function loadSavedData() {
+        const name = localStorage.getItem('name');
+        const phone = localStorage.getItem('phone');
+        const address = localStorage.getItem('address');
+
+        if (name) document.getElementById('name').value = name;
+        if (phone) document.getElementById('phone').value = phone;
+        if (address) document.getElementById('address').value = address;
+        
+        checkInputs(); // Ensure button state is updated based on pre-filled values
+    }
+
+    function checkInputs() {
+        let allFilled = true;
+        inputs.forEach(input => {
+            if (input.value.trim() === '') { // Use trim() to handle spaces
+                allFilled = false;
+            }
+        });
+
+        if (allFilled) {
+            submitBtn.disabled = false;
+            submitBtn.classList.add('enabled');
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.classList.remove('enabled');
+        }
+    }
+
+    function saveToLocalStorage() {
+        localStorage.setItem('name', document.getElementById('name').value);
+        localStorage.setItem('phone', document.getElementById('phone').value);
+        localStorage.setItem('address', document.getElementById('address').value);
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', checkInputs);
+    });
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form from submitting the traditional way
+        saveToLocalStorage(); // Save form data to local storage
+        window.location.href = 'index.html'; // Redirect to the specified URL
+    });
+
+    redirectToSiteIfDataExists(); // Redirect if data exists in local storage
+    loadSavedData(); // Load any previously saved data
+});
+
+
+</script>
+</body>
+</html>

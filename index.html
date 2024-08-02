@@ -650,19 +650,24 @@
         if (event.target.classList.contains('buy-button')) {
             const productId = event.target.dataset.productId;
             const card = document.querySelector(`.product-card[data-product-id="${productId}"]`);
-            const productName = card.querySelector('.product-name').innerText;
-            const productPrice = card.querySelector('.product-price').innerText;
-            const productImage = card.querySelector('img').src;
-            const productQuantity = card.querySelector(`#quantity-${productId}`).value;
+            if (card) {
+                const productName = card.querySelector('.product-name').innerText;
+                const productPrice = card.querySelector('.product-price').innerText;
+                const productImage = card.querySelector('img').src;
+                const productQuantity = card.querySelector(`#quantity-${productId}`).value;
 
-            localStorage.setItem('cartItem', JSON.stringify({
-                id: productId,
-                name: productName,
-                price: productPrice,
-                image: productImage,
-                quantity: productQuantity
-            }));
-            window.location.href = 'cart.html';
+                // Store data in localStorage directly
+                localStorage.setItem('productId', productId);
+                localStorage.setItem('productName', productName);
+                localStorage.setItem('productPrice', productPrice);
+                localStorage.setItem('productImage', productImage);
+                localStorage.setItem('productQuantity', productQuantity);
+
+                // Redirect to cart.html
+                window.location.href = 'cart.html';
+            } else {
+                console.error('Card not found for product ID:', productId);
+            }
         }
     });
 </script>

@@ -4,6 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>हॉटेल अतिथी</title>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const name = localStorage.getItem('name');
+    const phone = localStorage.getItem('phone');
+    const address = localStorage.getItem('address');
+
+    if (!name || !phone || !address) {
+        window.location.href = 'login.html';
+    }
+});
+
+    </script>
     
     <!-- For Loading Animation (start) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.5/lottie.min.js"></script>
